@@ -1,0 +1,47 @@
+1.
+
+select b.color from sailors s, boats b, reserves r where r.sid=s.sid and b.bid=r.bid and s.sname="Dustin" group by b.color order by b.color desc;
+
+2.
+
+select s.sid from sailors s, reserves r where (r.sid=s.sid and r.bid=103) or rating >= 8 group by s.sid;
+
+or
+
+(select s.sid from sailors s where s.rating  >= 8) union (select s.sid from sailors s, reserves r where s.sid=r.sid and r.bid=103);
+
+3.
+
+select s.sid, s.sname from sailors s where not exists(select * from reserves r, boats b where s.sid=r.sid and r.bid=b.bid and b.color="red");
+
+4.
+
+select s.sid, s.sname, s.age from sailors s where not exists(select * from reserves r, boats b where s.sid=r.sid and r.bid=b.bid and b.color="red") and s.age>20;
+
+5.
+
+select s.sname, count(r.bid) from sailors s, reserves r where s.sid=r.sid group by s.sid having count(r.bid) >= 2;
+
+6.
+
+(select s.sname, r.sid, count(distinct(r.bid)) from reserves r, sailors s where r.sid=s.sid group by r.sid having count(distinct(r.bid)) = (select count(*) from boats));
+
+7.
+
+(select s.sname, r.sid, count(distinct(r.bid)) from reserves r, sailors s, boats b where r.sid=s.sid and r.bid=b.bid and b.bname="Interlake" group by r.sid having count(distinct(r.bid)) = (select count(bid) from boats where bname="Interlake"));
+
+8.
+
+select s1.sname, s1.age from sailors s1 where s1.age >= any(select age from sailors where sname="Andy");
+
+9.
+
+select s1.sname, s1.age from sailors s1 where s1.age >= all(select age from sailors where sname="Andy");
+
+10.
+
+select s.sid from sailors s where s.rating = (select max(rating) from sailors);
+
+11.
+
+select s.sname, s.age from sailors s where s.age = (select max(age) from sailors);
