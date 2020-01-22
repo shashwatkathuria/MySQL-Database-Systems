@@ -1,0 +1,27 @@
+1.
+
+select r.sid, r.bid, s.sname from sailors s, reserves r where s.sid=r.sid and s.rating>(select avg(rating) from reserves natural join sailors);
+
+2.
+
+select r.sid, r.bid, s.sname, b.color from sailors s, reserves r, boats b where s.sid=r.sid and r.bid=b.bid and s.rating>(select avg(rating) from reserves natural join sailors);
+
+3.
+
+select b.color, r.sid, r.bid from sailors s, reserves r, boats b where s.sid=r.sid and r.bid=b.bid and s.rating=(select s1.rating from sailors s1 where 1 = (select count(distinct(rating)) from sailors s2 where s1.rating < s2.rating));
+
+4.
+
+select count(r.bid) from sailors s, reserves r where s.sid = r.sid and s.sname="Lubber" and day like "%-11-%";
+
+5.
+
+select s1.sname as "Superviser", s2.sname as "Supervised" from sailors s1, sailors s2 where s1.rating > s2.rating and s1.sid<>s2.sid and s1.age>s2.age order by s2.sid asc;
+
+6.
+
+select s.sname from sailors s, reserves r where s.sid=r.sid and s.rating=(select min(s.rating) from sailors s, reserves r where s.sid=r.sid)  group by s.sid;
+
+7.
+
+select bid, sid, sname, min(age) from reserves r natural join sailors s natural join boats b where color="red" and age = (select min(age) from reserves r natural join sailors s);
