@@ -1,0 +1,14 @@
+1.
+select s1.sname, s2.sname from sailors s1, sailors s2 where left(s1.sname, 1) = left(s2.sname, 1) and s1.sid<>s2.sid;
+
+2.
+
+select * from boats b join sailors s where bid % age = 0;
+
+3.
+
+select month(day), count(r.bid) from reserves r, boats b where r.bid=b.bid and color="red" and (day like "%-09-%" or day like "%-10-%") group by month(day);
+
+4.
+
+select *, count(r.bid) from sailors s, reserves r where r.sid=s.sid group by s.sid having (count(r.bid) > 1 and count(r.bid) < 4);
